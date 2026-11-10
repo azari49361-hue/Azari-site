@@ -1,0 +1,30 @@
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      # فقط روی loopback — دسترسی عمومی از طریق nginx انجام می‌شود (بدون Basic Auth)
+      - "127.0.0.1:3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: azari
+      POSTGRES_PASSWORD: change-me-strong-password
+      POSTGRES_DB: azaritrade
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U azari -d azaritrade"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:

@@ -1,0 +1,23 @@
+# هر چیزی که نباید داخل ایمیج برود
+node_modules
+dist
+.git
+.gitignore
+
+# Secrets — هرگز داخل لایه‌های ایمیج نباشند
+.env
+.env.*
+!.env.example
+
+# داده و لاگ‌های محلی
+*.log
+.preview-pgdata
+.smoke-pgdata
+.preview-admin-key
+data
+
+# فایل‌هایی که در runtime لازم نیستند
+docs
+deploy
+tests
+README.md
